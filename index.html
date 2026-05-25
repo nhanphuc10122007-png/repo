@@ -1,0 +1,1851 @@
+ <!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SaiGonBac SMP — Máy Chủ Minecraft Việt Nam</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="module" src="script.js"></script>
+<style>
+:root{
+  --g:#4ade80;--g2:#166534;--g3:#15803d;
+  --dark:#0a0a0a;--dark2:#111;--dark3:#161616;
+  --gold:#fbbf24;--sky:#38bdf8;--red:#f87171;
+  --brown:#78350f;--dirt:#92400e;
+  --text:#e5e5e5;--muted:#737373;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Nunito',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;cursor:default}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(–dark)}
+::-webkit-scrollbar-thumb{background:var(–g2);border-radius:3px}
+
+/* ===== NOISE OVERLAY ===== */
+body::before{
+content:’’;position:fixed;inset:0;pointer-events:none;z-index:9999;
+background-image:url(“https://i.postimg.cc/2VjFqstQ/Gemini-Generated-Image-my8cndmy8cndmy8c.png’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23n)’ opacity=‘0.04’/%3E%3C/svg%3E”);
+opacity:.35;mix-blend-mode:overlay;
+}
+
+/* ===== NAV ===== */
+nav{
+position:fixed;top:0;left:0;right:0;z-index:1000;
+height:60px;display:flex;align-items:center;justify-content:space-between;
+padding:0 2.5rem;
+background:rgba(10,10,10,.88);backdrop-filter:blur(16px);
+border-bottom:1px solid rgba(74,222,128,.12);
+}
+  .logo{
+    display:flex;
+    align-items:center;   /* căn giữa theo chiều dọc */
+    gap:.6rem;
+
+    font-family:'Press Start 2P', monospace;
+    font-size:.9rem;
+    color:var(--g);
+    letter-spacing:1px;
+  }
+
+  .logo img{
+    width:64px;
+    height:64px;
+    object-fit:contain;
+  }
+
+  .logo span{
+    display:flex;
+    align-items:center; /* đảm bảo text luôn giữa */
+  }
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:#a3a3a3;text-decoration:none;font-weight:700;font-size:.88rem;transition:color .2s}
+.nav-links a:hover{color:var(–g)}
+.nav-cta{
+font-family:‘Press Start 2P’,monospace;font-size:.55rem;
+background:var(–g);color:var(–dark);border:none;cursor:pointer;
+padding:.6rem 1.2rem;border-radius:3px;
+box-shadow:0 0 20px rgba(74,222,128,.45);
+transition:transform .15s,box-shadow .15s;
+}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(74,222,128,.7)}
+
+/* ===== HERO ===== */
+#hero{
+position:relative;min-height:100vh;
+display:flex;flex-direction:column;align-items:center;justify-content:center;
+text-align:center;padding:7rem 1.5rem 6rem;overflow:hidden;
+}
+/* animated sky gradient */
+#hero::before{
+content:’’;position:absolute;inset:0;
+background:linear-gradient(180deg,#0c1a2e 0%,#0a0a0a 55%);
+z-index:0;
+}
+/* grass strip */
+.grass-strip{
+position:absolute;bottom:0;left:0;right:0;z-index:2;
+height:56px;
+background:repeating-linear-gradient(90deg,#16a34a 0,#16a34a 16px,#15803d 16px,#15803d 32px);
+clip-path:polygon(0 45%,1.5% 0,3% 45%,4.5% 0,6% 45%,7.5% 0,9% 45%,10.5% 0,12% 45%,13.5% 0,15% 45%,16.5% 0,18% 45%,19.5% 0,21% 45%,22.5% 0,24% 45%,25.5% 0,27% 45%,28.5% 0,30% 45%,31.5% 0,33% 45%,34.5% 0,36% 45%,37.5% 0,39% 45%,40.5% 0,42% 45%,43.5% 0,45% 45%,46.5% 0,48% 45%,49.5% 0,51% 45%,52.5% 0,54% 45%,55.5% 0,57% 45%,58.5% 0,60% 45%,61.5% 0,63% 45%,64.5% 0,66% 45%,67.5% 0,69% 45%,70.5% 0,72% 45%,73.5% 0,75% 45%,76.5% 0,78% 45%,79.5% 0,81% 45%,82.5% 0,84% 45%,85.5% 0,87% 45%,88.5% 0,90% 45%,91.5% 0,93% 45%,94.5% 0,96% 45%,97.5% 0,99% 45%,100% 0,100% 100%,0 100%);
+}
+/* floating blocks */
+.fblock{
+position:absolute;width:44px;height:44px;
+border:3px solid rgba(0,0,0,.5);image-rendering:pixelated;
+animation:blockFloat 7s ease-in-out infinite;z-index:1;
+}
+.fb1{background:linear-gradient(180deg,#4ade80 30%,#78350f 30%);top:14%;left:7%;animation-delay:0s}
+.fb2{background:#6b7280;top:28%;right:9%;animation-delay:1.8s}
+.fb3{background:repeating-linear-gradient(90deg,#92400e 0,#92400e 5px,#78350f 5px,#78350f 10px);top:58%;left:4%;animation-delay:3.2s}
+.fb4{background:#22d3ee;top:20%;right:22%;animation-delay:.9s}
+.fb5{background:#fbbf24;top:68%;right:6%;animation-delay:2.5s}
+.fb6{background:#dc2626;top:40%;left:14%;animation-delay:4s}
+@keyframes blockFloat{
+0%,100%{transform:translateY(0) rotate(0deg)}
+33%{transform:translateY(-16px) rotate(4deg)}
+66%{transform:translateY(-8px) rotate(-3deg)}
+}
+/* stars */
+.stars{position:absolute;inset:0;z-index:0;pointer-events:none}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle 3s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.2}to{opacity:.9}}
+
+.hero-inner{position:relative;z-index:3}
+.hero-pill{
+display:inline-block;margin-bottom:1.5rem;
+background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.35);
+color:var(–g);padding:.32rem 1rem;border-radius:99px;
+font-size:.75rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;
+}
+.hero-title{
+font-family:‘Press Start 2P’,monospace;
+font-size:clamp(1.6rem,6vw,3.4rem);line-height:1.4;color:#fff;
+text-shadow:5px 5px 0 #052e16,0 0 60px rgba(74,222,128,.2);
+margin-bottom:1.6rem;
+}
+.hero-title .hl{color:var(–g);text-shadow:5px 5px 0 #052e16,0 0 30px rgbargba(245, 40, 145, 0)}
+.hero-sub{
+max-width:560px;font-size:1.08rem;font-weight:600;
+color:#fff;line-height:1.9;margin:0 auto 2.8rem;
+}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+
+.btn-g{
+  font-family:'Press Start 2P',monospace;
+  font-size:.6rem;
+  background:var(--g);
+  color:#fff; /* FIX */
+  border:none;
+  cursor:pointer;
+  padding:.95rem 2rem;
+  border-radius:3px;
+  text-decoration:none;
+  display:inline-block;
+  box-shadow:0 5px 0 var(--g2),0 0 24px rgba(255,255,255,0);
+  transition:transform .15s,box-shadow .15s;
+}
+.btn-g:hover{transform:translateY(-3px);box-shadow:0 8px 0 var(–g2),0 0 36px rgba(245, 40, 145, 0)}
+.btn-g:active{transform:translateY(2px);box-shadow:0 2px 0 var(–g2)}
+.btn-o{
+  font-family:'Press Start 2P', monospace;
+  font-size:.6rem;
+
+  background:transparent;
+  color:#fff;
+
+  border:2px solid var(--g);
+  cursor:pointer;
+
+  padding:.95rem 2rem;
+  border-radius:3px;
+  text-decoration:none;
+  display:inline-block;
+
+  box-shadow:0 5px 0 var(--g2), 0 0 24px rgba(74,222,128,.15);
+  transition:transform .15s, box-shadow .15s, background .2s;
+}
+
+/* hover giống btn-g */
+.btn-o:hover{
+  transform:translateY(-3px);
+  background:rgba(74,222,128,.1);
+  box-shadow:0 8px 0 var(--g2), 0 0 36px rgba(74,222,128,.4);
+}
+
+/* click */
+.btn-o:active{
+  transform:translateY(2px);
+  box-shadow:0 2px 0 var(--g2);
+}
+
+
+
+
+.ip-bar{
+  display:inline-flex;
+  align-items:center;
+  gap:1rem;
+
+  margin-top:2.8rem;
+  padding:.95rem 2rem;
+
+  background:transparent;
+  color:#fff;
+
+  border:2px solid rgba(74,222,128,.4);
+  border-radius:3px;
+
+  font-family:'Press Start 2P', monospace;
+  font-size:.6rem;
+
+  transition:all .2s ease;
+}
+
+/* hover giống btn-o */
+.ip-bar:hover{
+  background:rgba(74,222,128,.1);
+  border-color:#4ade80;
+  transform:translateY(-2px);
+}
+.ip-lbl{
+  color:#888;
+  font-size:.6rem;
+  font-weight:800;
+}
+
+.ip-val{
+  color:#fff;
+}
+.copy-ip{
+  background:transparent;
+  border:1px solid rgba(74,222,128,.4);
+
+  color:#fff;
+  cursor:pointer;
+
+  padding:.3rem .7rem;
+  border-radius:3px;
+
+  font-size:.6rem;
+
+  transition:.2s;
+}
+
+.copy-ip:hover{
+  background:rgba(74,222,128,.2);
+  border-color:#4ade80;
+}
+
+
+
+
+/* ===== SHARED SECTION PARTS ===== */
+section{position:relative;z-index:1}
+.s-label{font-family:‘Press Start 2P’,monospace;font-size:.5rem;letter-spacing:3px;color:var(–g);text-transform:uppercase;margin-bottom:.7rem}
+.s-title{font-family:‘Press Start 2P’,monospace;font-size:clamp(.9rem,2.5vw,1.55rem);color:#fff;line-height:1.7;margin-bottom:1rem}
+.s-sub{color:var(–muted);font-size:1rem;line-height:1.85;max-width:580px}
+.center{text-align:center}
+
+/* ===== GIỚI THIỆU ===== */
+#gioi-thieu{padding:8rem 2rem;background:linear-gradient(180deg,var(–dark),#0e0e0e)}
+.gt-wrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+
+/* pixel art world */
+
+
+  /* ===== FEATURES ===== */
+  .gt-features{
+    display:flex;
+    flex-direction:column;
+    gap:.7rem;
+    margin-top:2rem;
+  }
+
+  .ftag{
+    display:flex;
+    align-items:center;
+    gap:.7rem;
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:5px;
+    padding:.75rem 1rem;
+    font-size:.9rem;
+    font-weight:700;
+    transition:.2s;
+  }
+
+  .ftag:hover{
+    background:rgba(74,222,128,.06);
+    border-color:rgba(74,222,128,.3);
+  }
+
+  .ftag .em{
+    font-size:1.1rem;
+    min-width:1.5rem;
+  }
+
+  /* ===== STATS ===== */
+  .stats-row{
+    display:flex;
+    gap:1rem;
+    flex-wrap:wrap;
+    margin-top:2rem;
+  }
+
+  .scard{
+    flex:1;
+    min-width:90px;
+    text-align:center;
+    background:rgba(74,222,128,.05);
+    border:1px solid rgba(74,222,128,.15);
+    border-radius:6px;
+    padding:.9rem .5rem;
+  }
+
+  .snum{
+    font-family:'Press Start 2P', monospace;
+    font-size:.95rem;
+    color:#4ade80; /* fix luôn var lỗi */
+    display:block;
+    margin-bottom:.35rem;
+  }
+
+  .slbl{
+    font-size:.72rem;
+    color:#525252;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+  }
+
+/* ===== FEATURES ===== */
+#features{padding:6rem 2rem;background:var(–dark2);border-top:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04)}
+.feat-grid{max-width:1100px;margin:3rem auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.3rem}
+.fcard{
+background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);
+border-radius:8px;padding:1.8rem 1.4rem;
+transition:transform .25s,border-color .25s,box-shadow .25s;
+}
+.fcard:hover{transform:translateY(-7px);border-color:rgba(74,222,128,.28);box-shadow:0 16px 40px rgba(74,222,128,.08)}
+.fcard-icon{font-size:2rem;display:block;margin-bottom:1rem}
+.fcard-title{font-weight:900;font-size:1rem;color:#fff;margin-bottom:.5rem}
+.fcard-desc{font-size:.85rem;color:#5a5a5a;line-height:1.75}
+
+/* ===== RULES ===== */
+#rules{padding:7rem 2rem;background:linear-gradient(180deg,var(–dark2),var(–dark))}
+.rules-list{max-width:820px;margin:2.5rem auto 0;display:grid;gap:.85rem}
+.ritem{
+display:flex;align-items:flex-start;gap:1.1rem;
+background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);
+border-left:3px solid var(–g);border-radius:0 6px 6px 0;padding:1.1rem 1.4rem;
+transition:background .2s;
+}
+.ritem:hover{background:rgba(74,222,128,.04)}
+.rnum{font-family:‘Press Start 2P’,monospace;font-size:.55rem;color:var(–g);min-width:24px;padding-top:2px}
+.rtxt{font-size:.93rem;font-weight:700;line-height:1.65;color:#d4d4d4}
+.rtxt strong{color:var(–g)}
+
+/* ===== WHITELIST ===== */
+#whitelist{
+padding:8rem 2rem;
+background:radial-gradient(ellipse at 50% -5%,rgba(74,222,128,.1) 0%,transparent 60%),var(–dark);
+}
+.wl-wrap{max-width:660px;margin:0 auto;text-align:center}
+.wl-wrap .s-sub{margin:0 auto 3rem}
+
+.wl-card{
+background:rgba(255,255,255,.025);
+border:1px solid rgba(74,222,128,.18);border-radius:12px;
+padding:3rem 2.5rem;
+box-shadow:0 0 80px rgba(74,222,128,.06),inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.fgroup{margin-bottom:1.3rem;text-align:left}
+.fgroup label{display:block;margin-bottom:.45rem;font-size:.75rem;font-weight:900;color:#737373;text-transform:uppercase;letter-spacing:1.5px}
+.fgroup input,.fgroup select,.fgroup textarea{
+width:100%;background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.1);border-radius:5px;
+padding:.82rem 1rem;color:#e5e5e5;
+font-family:‘Nunito’,sans-serif;font-size:.93rem;outline:none;
+transition:border-color .2s,box-shadow .2s;
+-webkit-appearance:none;
+}
+.fgroup input::placeholder,.fgroup textarea::placeholder{color:#3a3a3a}
+.fgroup input:focus,.fgroup select:focus,.fgroup textarea:focus{
+border-color:var(–g);box-shadow:0 0 0 3px rgba(74,222,128,.12)
+}
+.fgroup select{cursor:pointer;background-image:url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘12’ height=‘8’ viewBox=‘0 0 12 8’%3E%3Cpath fill=’%234ade80’ d=‘M1 1l5 5 5-5’/%3E%3C/svg%3E”);background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem}
+.fgroup select option{background:#161616;color:#e5e5e5}
+.fgroup textarea{resize:vertical;min-height:110px;line-height:1.6}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+
+.check-row{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:2rem;text-align:left}
+.check-row input[type=checkbox]{width:17px;height:17px;min-width:17px;margin-top:3px;accent-color:var(–g);cursor:pointer}
+.check-row label{font-size:.87rem;color:#737373;line-height:1.65;cursor:pointer}
+.check-row label a{color:var(–g);text-decoration:none}
+.check-row label a:hover{text-decoration:underline}
+
+.submit-btn{
+width:100%;font-family:‘Press Start 2P’,monospace;font-size:.65rem;
+background:var(–g);color:var(–dark);border:none;cursor:pointer;
+padding:1.1rem;border-radius:4px;
+box-shadow:0 5px 0 var(–g2),0 0 24px rgba(74,222,128,.3);
+transition:transform .15s,box-shadow .15s;letter-spacing:.5px;
+}
+.submit-btn:hover{transform:translateY(-3px);box-shadow:0 8px 0 var(–g2),0 0 40px rgba(74,222,128,.5)}
+.submit-btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(–g2)}
+
+.success-panel{display:none;flex-direction:column;align-items:center;gap:1.2rem;padding:3rem 1.5rem}
+.success-panel .big-em{font-size:4.5rem;animation:bounce .6s ease forwards}
+@keyframes bounce{0%{transform:scale(0)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+.success-panel h3{font-family:‘Press Start 2P’,monospace;font-size:.82rem;color:var(–g)}
+.success-panel p{color:#737373;font-size:.95rem;line-height:1.75}
+.success-panel p strong{color:#e5e5e5}
+
+/* ===== FOOTER ===== */
+footer{
+position:relative;z-index:1;padding:3rem 2rem 2.5rem;
+border-top:1px solid rgba(255,255,255,.05);text-align:center;
+}
+  .ft-logo{
+    font-family:'Press Start 2P', monospace;
+    font-size:.75rem;
+    color:var(--g);
+    margin-bottom:1.2rem;
+
+    display:flex; /* đổi block -> flex để gắn ảnh */
+    align-items:center;
+    justify-content:center;
+    gap:.6rem;
+  }
+
+  /* nếu có ảnh logo */
+  .ft-logo img{
+    width:64px;
+    height:64px;
+    object-fit:contain;
+
+    image-rendering:pixelated;
+
+    filter:drop-shadow(0 0 6px rgba(74,222,128,.6));
+  }
+
+  .ft-links{
+    display:flex;
+    gap:1.5rem;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-bottom:1.5rem;
+  }
+
+  .ft-links a{
+    color:#525252;
+    text-decoration:none;
+    font-size:.85rem;
+    font-weight:700;
+    transition:color .2s;
+  }
+
+  .ft-links a:hover{
+    color:var(--g);
+  }
+
+  .ft-copy{
+    font-size:.78rem;
+    color:#2a2a2a;
+  }
+/* ===== TOAST ===== */
+#toast{
+position:fixed;bottom:2rem;left:50%;
+transform:translateX(-50%) translateY(120px);
+background:var(–g);color:var(–dark);
+font-family:‘Press Start 2P’,monospace;font-size:.56rem;
+padding:.8rem 1.6rem;border-radius:3px;
+box-shadow:0 4px 24px rgba(74,222,128,.5);
+transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+z-index:9998;white-space:nowrap;
+}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ===== REVEAL ===== */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .65s ease,transform .65s ease}
+.reveal.on{opacity:1;transform:none}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+nav{padding:0 1.2rem}
+.nav-links{display:none}
+}
+@media(max-width:720px){
+.gt-wrap{grid-template-columns:1fr;gap:3rem}
+.frow{grid-template-columns:1fr}
+.wl-card{padding:2rem 1.3rem}
+.hero-title{font-size:1.4rem}
+.ip-bar{flex-wrap:wrap;justify-content:center}
+}
+  /* nền ảnh */
+  .city-bg{
+    position:absolute;
+    inset:0;
+    background-image:url("https://i.postimg.cc/fTBjHpqy/hinh-anh-2026-04-26-163739571-Nero-AI-Image-Upscaler-Photo-Face-Compressed.png");
+    background-size:cover;
+    background-position:center;
+    z-index:0;
+  }
+
+  .overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    z-index:1;
+  }
+
+  .hero-inner,
+  .hero-logo{
+    position:relative;
+    z-index:2;
+  }
+  .hero-logo{
+    margin-bottom: 1.5rem;
+    display:flex;
+    justify-content:center;
+  }
+
+  .hero-logo img{
+    width:270px;
+    height:270px;
+    object-fit:contain;
+    image-rendering:pixelated;
+
+    filter: drop-shadow(0 0 12px rgba(74,222,128,.6));
+    transition: transform .25s ease, filter .25s ease;
+  }
+
+  .hero-logo img:hover{
+    transform: scale(1.08) rotate(2deg);
+    filter: drop-shadow(0 0 20px rgba(74,222,128,1));
+  }
+</style>
+ 
+    <style>
+          #supportPanel{
+      position:fixed;
+      top:0;
+      right:-350px; /* ẩn ngoài màn */
+      width:320px;
+      height:100%;
+      background:#0f0f0f;
+      border-left:1px solid rgba(255,255,255,.08);
+
+      transition:right .35s ease;
+      z-index:2000;
+
+      display:flex;
+      flex-direction:column;
+    }
+
+    #supportPanel.open{
+      right:0;
+    }
+
+    .sp-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+
+      padding:1rem;
+      border-bottom:1px solid rgba(255,255,255,.05);
+
+      font-weight:800;
+      color:var(--g);
+    }
+
+    .sp-header button{
+      background:none;
+      border:none;
+      color:#aaa;
+      font-size:1.2rem;
+      cursor:pointer;
+    }
+
+    .sp-body{
+      padding:1.2rem;
+      color:#ccc;
+      line-height:1.8;
+    }
+    </style>
+  <style>
+    /* ===== SEASON ===== */
+    #season{padding:7rem 2rem;background:var(–dark);overflow:hidden}
+    .season-wrap{max-width:900px;margin:0 auto}
+
+    /* ── Season selector (horizontal) ── */
+    .sn-track{
+    display:flex;align-items:center;gap:0;
+    overflow-x:auto;padding:0 2px 6px;
+    scrollbar-width:none;
+    }
+    .sn-track::-webkit-scrollbar{display:none}
+
+    .sn-item{
+    display:flex;flex-direction:column;align-items:center;
+    flex:1 1 0;min-width:80px;cursor:pointer;
+    user-select:none;-webkit-tap-highlight-color:transparent;
+    position:relative;z-index:1;
+    }
+
+    /* connecting line between items */
+    .sn-item:not(:last-child)::after{
+    content:’’;
+    position:absolute;top:20px;left:calc(50% + 20px);
+    width:calc(100% - 40px);height:2px;
+    background:rgba(255,255,255,.08);z-index:0;
+    }
+    .sn-item.done:not(:last-child)::after{background:rgba(74,222,128,.4)}
+    .sn-item.active:not(:last-child)::after{background:rgba(74,222,128,.2)}
+
+    /* circle badge */
+    .sn-circle{
+    width:40px;height:40px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:‘Press Start 2P’,monospace;font-size:.55rem;font-weight:900;
+    position:relative;z-index:2;
+    transition:transform .2s,box-shadow .2s;
+    }
+    .sn-item:hover .sn-circle,.sn-item.sel .sn-circle{transform:scale(1.15)}
+    .sn-item.done  .sn-circle{background:var(–g);color:var(–dark);box-shadow:0 0 0 3px rgba(74,222,128,.2),0 0 14px rgba(74,222,128,.5)}
+    .sn-item.active .sn-circle{background:var(–gold);color:var(–dark);box-shadow:0 0 0 3px rgba(251,191,36,.22),0 0 16px rgba(251,191,36,.6);animation:spulse 1.6s ease-in-out infinite}
+    .sn-item.soon  .sn-circle{background:#161616;color:#444;border:2px solid rgba(255,255,255,.1)}
+    .sn-item.sel.done  .sn-circle{box-shadow:0 0 0 5px rgba(74,222,128,.4),0 0 22px rgba(74,222,128,.8)}
+    .sn-item.sel.active .sn-circle{box-shadow:0 0 0 5px rgba(251,191,36,.35),0 0 28px rgba(251,191,36,1)}
+    .sn-item.sel.soon  .sn-circle{border-color:rgba(255,255,255,.4);color:#aaa}
+    @keyframes spulse{
+    0%,100%{box-shadow:0 0 0 3px rgba(251,191,36,.22),0 0 16px rgba(251,191,36,.6)}
+    50%{box-shadow:0 0 0 7px rgba(251,191,36,.08),0 0 30px rgba(251,191,36,.95)}
+    }
+
+    /* season name label */
+    .sn-lbl{
+    font-family:‘Press Start 2P’,monospace;font-size:.42rem;
+    margin-top:.55rem;text-align:center;line-height:1.6;
+    white-space:nowrap;transition:color .2s;
+    }
+    .sn-item.done   .sn-lbl{color:rgba(74,222,128,.7)}
+    .sn-item.active .sn-lbl{color:rgba(251,191,36,.8)}
+    .sn-item.soon   .sn-lbl{color:#2e2e2e}
+    .sn-item.sel    .sn-lbl{color:#fff!important}
+
+    /* ── Patch timeline (vertical, shown on click) ── */
+    .patch-panel{
+    margin-top:2.2rem;
+    max-height:0;overflow:hidden;opacity:0;
+    transition:max-height .5s cubic-bezier(.22,1,.36,1), opacity .4s ease;
+    }
+    .patch-panel.open{max-height:2000px;opacity:1}
+
+    /* season header inside panel */
+    .patch-header{
+    display:flex;align-items:center;gap:1.2rem;
+    padding:1.4rem 1.8rem;
+    background:#111;
+    border:1px solid rgba(74,222,128,.18);
+    border-radius:12px 12px 0 0;
+    border-bottom:none;
+    position:relative;
+    }
+    .patch-header.gold-hdr{border-color:rgba(251,191,36,.28)}
+    .patch-header.soon-hdr{border-color:rgba(255,255,255,.08)}
+    /* arrow pointing up */
+    .patch-header::before{
+    content:’’;position:absolute;top:-8px;
+    left:var(–arr,50%);transform:translateX(-50%);
+    width:14px;height:8px;
+    background:#111;
+    clip-path:polygon(50% 0%,0% 100%,100% 100%);
+    border-left:1px solid rgba(74,222,128,.18);
+    border-right:1px solid rgba(74,222,128,.18);
+    }
+    .patch-header.gold-hdr::before{border-color:rgba(251,191,36,.28)}
+    .patch-header.soon-hdr::before{border-color:rgba(255,255,255,.08)}
+
+    .ph-icon{font-size:2.4rem;line-height:1;flex-shrink:0}
+    .ph-right{}
+    .ph-badge{
+    display:inline-flex;align-items:center;gap:.35rem;
+    font-size:.68rem;font-weight:900;padding:.2rem .65rem;border-radius:99px;margin-bottom:.4rem;
+    }
+    .pb-g{background:rgba(74,222,128,.1);color:var(–g);border:1px solid rgba(74,222,128,.25)}
+    .pb-y{background:rgba(251,191,36,.1);color:var(–gold);border:1px solid rgba(251,191,36,.28)}
+    .pb-s{background:rgba(255,255,255,.04);color:#525252;border:1px solid rgba(255,255,255,.09)}
+    .ph-title{font-weight:900;font-size:1.15rem;color:#fff;line-height:1.3}
+    .ph-sub{font-size:.85rem;color:#525252;margin-top:.25rem}
+
+    /* patch list */
+    .patch-list{
+    background:#0d0d0d;
+    border:1px solid rgba(74,222,128,.18);
+    border-top:1px solid rgba(255,255,255,.05);
+    border-radius:0 0 12px 12px;
+    padding:1.5rem 1.8rem;
+    display:flex;flex-direction:column;gap:0;
+    }
+    .patch-list.gold-border{border-color:rgba(251,191,36,.18)}
+    .patch-list.soon-border{border-color:rgba(255,255,255,.06)}
+
+    /* single patch row */
+    .patch-row{
+    display:flex;gap:1.2rem;align-items:flex-start;
+    padding:1.2rem 0;
+    border-bottom:1px solid rgba(255,255,255,.04);
+    animation:fadeSlide .35s ease both;
+    }
+    .patch-row:last-child{border-bottom:none;padding-bottom:0}
+    .patch-row:first-child{padding-top:0}
+    @keyframes fadeSlide{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+    /* left dot + line */
+    .pr-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;padding-top:3px}
+    .pr-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+    .prd-done{background:var(–g);box-shadow:0 0 6px rgba(74,222,128,.6)}
+    .prd-now {background:var(–gold);box-shadow:0 0 6px rgba(251,191,36,.7);animation:spulse 1.6s ease-in-out infinite}
+    .prd-soon{background:#222;border:1.5px solid rgba(255,255,255,.15)}
+    .pr-line{width:2px;flex:1;min-height:16px;background:rgba(255,255,255,.05);margin-top:4px}
+    .patch-row:last-child .pr-line{display:none}
+
+    /* right content */
+    .pr-right{flex:1;min-width:0}
+    .pr-ver{font-family:‘Press Start 2P’,monospace;font-size:.45rem;margin-bottom:.3rem}
+    .pr-ver.g{color:rgba(74,222,128,.7)} .pr-ver.y{color:rgba(251,191,36,.7)} .pr-ver.s{color:#333}
+    .pr-title{font-weight:900;font-size:.95rem;color:#e5e5e5;margin-bottom:.35rem;line-height:1.4}
+    .pr-desc{font-size:.83rem;color:#4a4a4a;line-height:1.75}
+    .pr-chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.55rem}
+    .pr-chip{font-size:.68rem;font-weight:800;padding:.18rem .55rem;border-radius:3px;background:rgba(255,255,255,.04);color:#444;border:1px solid rgba(255,255,255,.07)}
+    .pr-chip.cg{color:var(–g);background:rgba(74,222,128,.07);border-color:rgba(74,222,128,.2)}
+    .pr-chip.cy{color:var(–gold);background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.2)}
+
+    /* hint */
+    .sn-hint{text-align:center;font-size:.75rem;color:#252525;font-weight:700;margin-top:1.6rem}
+
+    @media(max-width:720px){
+    .sn-item{min-width:64px}
+    .patch-header{flex-direction:column;align-items:flex-start;gap:.7rem;padding:1.2rem}
+    .patch-list{padding:1.2rem}
+    }
+
+    /* ── horizontal node strip ── */
+    .ver-strip{
+    position:relative;display:flex;align-items:flex-start;
+    justify-content:space-between;
+    overflow-x:auto;overflow-y:visible;
+    padding:0 4px 8px;gap:0;
+    scrollbar-width:thin;scrollbar-color:rgba(74,222,128,.15) transparent;
+    }
+    .ver-strip::-webkit-scrollbar{height:3px}
+    .ver-strip::-webkit-scrollbar-thumb{background:rgba(74,222,128,.2);border-radius:2px}
+    /* line through dots */
+    .ver-strip::before{
+    content:’’;position:absolute;top:18px;left:0;right:0;height:2px;z-index:0;
+    background:linear-gradient(90deg,
+    rgba(74,222,128,.7) 0%,
+    rgba(74,222,128,.7) 63%,
+    rgba(255,255,255,.07) 63%);
+    }
+
+    /* ── single node ── */
+    .vn{
+    position:relative;z-index:1;display:flex;flex-direction:column;
+    align-items:center;flex:1 1 0;min-width:70px;cursor:pointer;
+    user-select:none;-webkit-tap-highlight-color:transparent;
+    }
+    /* dot */
+    .vn-dot{
+    width:36px;height:36px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.8rem;font-weight:900;
+    transition:transform .25s,box-shadow .25s;
+    position:relative;z-index:2;
+    }
+    .vn:hover .vn-dot,.vn.sel .vn-dot{transform:scale(1.2)}
+    .dot-done{background:var(–g);color:var(–dark);box-shadow:0 0 0 3px rgba(74,222,128,.2),0 0 14px rgba(74,222,128,.5)}
+    .dot-now {background:var(–gold);color:var(–dark);box-shadow:0 0 0 3px rgba(251,191,36,.25),0 0 18px rgba(251,191,36,.6);animation:pulse 1.6s ease-in-out infinite}
+    .dot-soon{background:#1a1a1a;color:#444;border:2px solid rgba(255,255,255,.1)}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(251,191,36,.25),0 0 18px rgba(251,191,36,.6)}50%{box-shadow:0 0 0 7px rgba(251,191,36,.08),0 0 30px rgba(251,191,36,.9)}}
+    /* selected ring */
+    .vn.sel .dot-done{box-shadow:0 0 0 5px rgba(74,222,128,.35),0 0 20px rgba(74,222,128,.7)}
+    .vn.sel .dot-now {box-shadow:0 0 0 5px rgba(251,191,36,.35),0 0 26px rgba(251,191,36,.9)}
+    .vn.sel .dot-soon{border-color:rgba(255,255,255,.35)}
+
+    /* label */
+    .vn-lbl{
+    font-family:‘Press Start 2P’,monospace;font-size:.4rem;
+    text-align:center;margin-top:.5rem;line-height:1.6;white-space:nowrap;
+    transition:color .2s;
+    }
+    .vn.done-type .vn-lbl{color:var(–g)}
+    .vn.now-type .vn-lbl{color:var(–gold)}
+    .vn.soon-type .vn-lbl{color:#3a3a3a}
+    .vn.sel .vn-lbl{color:#fff!important}
+
+    /* ── detail panel ── */
+    .ver-detail{
+    margin-top:2rem;
+    overflow:hidden;
+    max-height:0;
+    transition:max-height .45s cubic-bezier(.22,1,.36,1),opacity .35s ease;
+    opacity:0;
+    }
+    .ver-detail.open{max-height:600px;opacity:1}
+
+    .vd-inner{
+    background:#111;
+    border:1px solid rgba(74,222,128,.18);
+    border-radius:12px;
+    padding:2rem 2.2rem;
+    display:flex;gap:2.5rem;align-items:flex-start;
+    position:relative;
+    }
+    .vd-inner.now-border{border-color:rgba(251,191,36,.28);box-shadow:0 0 40px rgba(251,191,36,.05)}
+    /* arrow pointing up toward selected dot */
+    .vd-inner::before{
+    content:’’;position:absolute;top:-8px;
+    left:var(–arrow-left, 50%);
+    transform:translateX(-50%);
+    width:14px;height:8px;
+    background:#111;
+    clip-path:polygon(50% 0%,0% 100%,100% 100%);
+    border-left:1px solid rgba(74,222,128,.18);
+    border-right:1px solid rgba(74,222,128,.18);
+    }
+    .vd-inner.now-border::before{border-color:rgba(251,191,36,.28)}
+
+    /* left: big icon + version */
+    .vd-left{display:flex;flex-direction:column;align-items:center;gap:.6rem;flex-shrink:0;min-width:80px}
+    .vd-icon{font-size:2.8rem;line-height:1}
+    .vd-ver{font-family:‘Press Start 2P’,monospace;font-size:.5rem;color:var(–g);text-align:center;white-space:nowrap}
+    .vd-ver.now-col{color:var(–gold)}
+    .vd-ver.soon-col{color:#525252}
+
+    /* right: content */
+    .vd-right{flex:1;min-width:0}
+    .vd-badge{
+    display:inline-flex;align-items:center;gap:.35rem;
+    font-size:.7rem;font-weight:900;padding:.2rem .7rem;border-radius:99px;margin-bottom:.7rem;
+    }
+    .vdb-done{background:rgba(74,222,128,.1);color:var(–g);border:1px solid rgba(74,222,128,.25)}
+    .vdb-now {background:rgba(251,191,36,.1);color:var(–gold);border:1px solid rgba(251,191,36,.3)}
+    .vdb-soon{background:rgba(255,255,255,.04);color:#525252;border:1px solid rgba(255,255,255,.1)}
+    .vd-title{font-weight:900;font-size:1.1rem;color:#fff;margin-bottom:.5rem;line-height:1.4}
+    .vd-desc{font-size:.88rem;color:#5a5a5a;line-height:1.8}
+    .vd-rows{display:flex;flex-direction:column;gap:.4rem;margin-top:1rem}
+    .vd-row{display:flex;align-items:flex-start;gap:.6rem;font-size:.83rem;line-height:1.5}
+    .vd-row .vdr-k{color:#3a3a3a;font-weight:800;min-width:90px;flex-shrink:0}
+    .vd-row .vdr-v{color:#a3a3a3;font-weight:700}
+    .vd-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.9rem}
+    .vd-tag{font-size:.7rem;font-weight:800;padding:.2rem .6rem;border-radius:3px;background:rgba(255,255,255,.04);color:#525252;border:1px solid rgba(255,255,255,.07)}
+    .vd-tag.hi{color:var(–g);border-color:rgba(74,222,128,.2);background:rgba(74,222,128,.07)}
+    .vd-tag.hi-gold{color:var(–gold);border-color:rgba(251,191,36,.2);background:rgba(251,191,36,.07)}
+
+    /* hint */
+    .ver-hint{text-align:center;font-size:.75rem;color:#2a2a2a;font-weight:700;margin-top:1.8rem}
+
+    @media(max-width:720px){
+    .ver-strip{justify-content:flex-start;gap:0}
+    .vn{min-width:60px}
+    .vd-inner{flex-direction:column;gap:1.2rem;padding:1.5rem}
+    .vd-left{flex-direction:row;min-width:unset}
+    }
+
+    /* ===== WHITELIST ===== */
+    #whitelist{
+    padding:8rem 2rem;
+    background:radial-gradient(ellipse at 50% -5%,rgba(74,222,128,.1) 0%,transparent 60%),var(–dark);
+    }
+    .wl-wrap{max-width:660px;margin:0 auto;text-align:center}
+    .wl-wrap .s-sub{margin:0 auto 3rem}
+
+    .wl-card{
+    background:rgba(255,255,255,.025);
+    border:1px solid rgba(74,222,128,.18);border-radius:12px;
+    padding:3rem 2.5rem;
+    box-shadow:0 0 80px rgba(74,222,128,.06),inset 0 1px 0 rgba(255,255,255,.05);
+    }
+
+    .fgroup{margin-bottom:1.3rem;text-align:left}
+    .fgroup label{display:block;margin-bottom:.45rem;font-size:.75rem;font-weight:900;color:#737373;text-transform:uppercase;letter-spacing:1.5px}
+    .fgroup input,.fgroup select,.fgroup textarea{
+    width:100%;background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.1);border-radius:5px;
+    padding:.82rem 1rem;color:#e5e5e5;
+    font-family:‘Nunito’,sans-serif;font-size:.93rem;outline:none;
+    transition:border-color .2s,box-shadow .2s;
+    -webkit-appearance:none;
+    }
+    .fgroup input::placeholder,.fgroup textarea::placeholder{color:#3a3a3a}
+    .fgroup input:focus,.fgroup select:focus,.fgroup textarea:focus{
+    border-color:var(–g);box-shadow:0 0 0 3px rgba(74,222,128,.12)
+    }
+    .fgroup select{cursor:pointer;background-image:url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘12’ height=‘8’ viewBox=‘0 0 12 8’%3E%3Cpath fill=’%234ade80’ d=‘M1 1l5 5 5-5’/%3E%3C/svg%3E”);background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem}
+    .fgroup select option{background:#161616;color:#e5e5e5}
+    .fgroup textarea{resize:vertical;min-height:110px;line-height:1.6}
+    .frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+
+    .check-row{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:2rem;text-align:left}
+    .check-row input[type=checkbox]{width:17px;height:17px;min-width:17px;margin-top:3px;accent-color:var(–g);cursor:pointer}
+    .check-row label{font-size:.87rem;color:#737373;line-height:1.65;cursor:pointer}
+    .check-row label a{color:var(–g);text-decoration:none}
+    .check-row label a:hover{text-decoration:underline}
+
+    .submit-btn{
+    width:100%;font-family:‘Press Start 2P’,monospace;font-size:.65rem;
+    background:var(–g);color:var(–dark);border:none;cursor:pointer;
+    padding:1.1rem;border-radius:4px;
+    box-shadow:0 5px 0 var(–g2),0 0 24px rgba(74,222,128,.3);
+    transition:transform .15s,box-shadow .15s;letter-spacing:.5px;
+    }
+    .submit-btn:hover{transform:translateY(-3px);box-shadow:0 8px 0 var(–g2),0 0 40px rgba(74,222,128,.5)}
+    .submit-btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(–g2)}
+
+    .success-panel{display:none;flex-direction:column;align-items:center;gap:1.2rem;padding:3rem 1.5rem}
+    .success-panel .big-em{font-size:4.5rem;animation:bounce .6s ease forwards}
+    @keyframes bounce{0%{transform:scale(0)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+    .success-panel h3{font-family:‘Press Start 2P’,monospace;font-size:.82rem;color:var(–g)}
+    .success-panel p{color:#737373;font-size:.95rem;line-height:1.75}
+    .success-panel p strong{color:#e5e5e5}
+
+    /* ===== FOOTER ===== */
+    footer{
+    position:relative;z-index:1;padding:3rem 2rem 2.5rem;
+    border-top:1px solid rgba(255,255,255,.05);text-align:center;
+    }
+    .ft-logo{font-family:‘Press Start 2P’,monospace;font-size:.75rem;color:var(–g);margin-bottom:1.2rem;display:block}
+    .ft-links{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
+    .ft-links a{color:#525252;text-decoration:none;font-size:.85rem;font-weight:700;transition:color .2s}
+    .ft-links a:hover{color:var(–g)}
+    .ft-copy{font-size:.78rem;color:#2a2a2a}
+
+    /* ===== TOAST ===== */
+    #toast{
+    position:fixed;bottom:2rem;left:50%;
+    transform:translateX(-50%) translateY(120px);
+    background:var(–g);color:var(–dark);
+    font-family:‘Press Start 2P’,monospace;font-size:.56rem;
+    padding:.8rem 1.6rem;border-radius:3px;
+    box-shadow:0 4px 24px rgba(74,222,128,.5);
+    transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+    z-index:9998;white-space:nowrap;
+    }
+    #toast.show{transform:translateX(-50%) translateY(0)}
+
+    /* ===== REVEAL ===== */
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity .65s ease,transform .65s ease}
+    .reveal.on{opacity:1;transform:none}
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:900px){
+    nav{padding:0 1.2rem}
+    .nav-links{display:none}
+    }
+    @media(max-width:720px){
+    .gt-wrap{grid-template-columns:1fr;gap:3rem}
+    .frow{grid-template-columns:1fr}
+    .wl-card{padding:2rem 1.3rem}
+    .hero-title{font-size:1.4rem}
+    .ip-bar{flex-wrap:wrap;justify-content:center}
+    }
+  </style>
+  <style>
+      /* nút hamburger */
+.menu-btn{
+  display:none;
+
+  background:none;
+  border:none;
+
+  color:#fff;
+  font-size:1.8rem;
+
+  cursor:pointer;
+}
+
+/* panel mobile */
+.mobile-menu{
+  position:fixed;
+  top:70px;
+  right:-100%;
+
+  width:260px;
+  height:calc(100vh - 70px);
+
+  background:#0f0f0f;
+  border-left:1px solid rgba(74,222,128,.15);
+
+  padding:1.5rem;
+
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+
+  transition:.35s ease;
+
+  z-index:999;
+}
+
+.mobile-menu.show{
+  right:0;
+}
+
+.mobile-menu a{
+  color:#fff;
+  text-decoration:none;
+
+  padding:1rem;
+  border-radius:8px;
+
+  background:rgba(255,255,255,.03);
+
+  transition:.2s;
+}
+
+.mobile-menu a:hover{
+  background:rgba(74,222,128,.08);
+  color:var(--g);
+}
+/* ===== MOBILE ===== */
+@media (max-width:900px){
+
+  .nav-links{
+    display:none !important;
+  }
+
+  .mobile-menu-btn{
+    display:flex !important;
+  }
+
+}
+/* ===== DESKTOP ===== */
+.mobile-menu-btn{
+  display:none;
+}
+  </style>
+ <style>
+     /* ===== PIXEL WORLD ART ===== */
+
+.world-art{
+  width:min(520px,100%);
+  aspect-ratio:1/1;
+  margin:auto;
+
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  grid-template-rows:repeat(12,1fr);
+
+  gap:0;
+  padding:10px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #09111d 0%,
+      #101827 40%,
+      #0b1018 100%
+    );
+
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:28px;
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.04);
+
+  overflow:hidden;
+  position:relative;
+}
+
+/* glow */
+.world-art::before{
+  content:"";
+  position:absolute;
+  inset:-20%;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(120,170,255,.12),
+      transparent 60%
+    );
+  pointer-events:none;
+}
+
+/* pixel */
+.world-art .p{
+  aspect-ratio:1/1;
+  transition:
+    transform .18s ease,
+    filter .18s ease;
+}
+
+/* hover */
+.world-art .p:hover{
+  transform:scale(1.08);
+  filter:brightness(1.12);
+  z-index:2;
+}
+
+/* ===== SKY ===== */
+
+.sky1{ background:#7dc8ff; }
+.sky2{ background:#5fb5ff; }
+.sky3{ background:#3d8dff; }
+
+/* ===== CLOUD ===== */
+
+.cld{  background:#f5fbff; }
+.cld2{ background:#d9efff; }
+
+/* ===== LEAVES ===== */
+
+.lf1{ background:#45b14d; }
+.lf2{ background:#31963a; }
+.lf3{ background:#26772d; }
+
+/* ===== WOOD ===== */
+
+.wd{
+  background:#77502d;
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,.18);
+}
+
+/* ===== GRASS ===== */
+
+.gt1{ background:#5ccf4e; }
+.gt2{ background:#44b73b; }
+
+/* ===== DIRT ===== */
+
+.dirt{  background:#7a5232; }
+.dirt2{ background:#5f3e25; }
+
+/* ===== WATER ===== */
+
+.w{
+  background:#2e8fff;
+  box-shadow:
+    inset 0 0 10px rgba(255,255,255,.15);
+}
+
+/* ===== STONE ===== */
+
+.s1{ background:#7b7f86; }
+.s2{ background:#666b73; }
+.s3{ background:#555962; }
+
+/* ===== DIAMOND ===== */
+
+.dia{
+  background:#6ffcff;
+  box-shadow:
+    0 0 12px rgba(111,252,255,.8),
+    inset 0 0 4px rgba(255,255,255,.5);
+}
+
+/* ===== GOLD ===== */
+
+.gld{
+  background:#ffd447;
+  box-shadow:
+    0 0 10px rgba(255,212,71,.6);
+}
+
+/* ===== LAVA ===== */
+
+.lv{
+  background:#ff6a1f;
+  box-shadow:
+    0 0 16px rgba(255,106,31,.7);
+}
+
+/* ===== BEDROCK ===== */
+
+.bd{
+  background:
+    linear-gradient(
+      135deg,
+      #2e2e2e,
+      #3b3b3b 40%,
+      #1f1f1f 100%
+    );
+}
+
+/* ===== MOBILE ===== */
+
+@media (max-width:700px){
+
+  .world-art{
+    width:100%;
+    border-radius:22px;
+    padding:6px;
+  }
+
+}
+    </style>
+</head>
+<body>
+
+<div id="toast">✅ ĐÃ SAO CHÉP IP!</div>
+<button class="menu-btn" onclick="toggleMenu()">
+  ☰
+</button>
+<!-- NAV -->
+<div id="supportPanel">
+    <div class="sp-header">
+      <span>Hỗ trợ</span>
+      <button onclick="toggleSupport()">✖</button>
+    </div>
+
+    <div class="sp-body">
+      <p>Hỗ trợ trong trường hợp đơn whilelist không gửi mã xác thực/lỗi cơ sở dữ liệu.</p>
+      <p></p>
+        <p>📧 Email: nhanphuc1012007@gmail.com</p><sup>24/7</sup>
+    </div>
+  </div>
+<nav>
+  <div class="logo">
+    <img src="https://i.postimg.cc/w1GtjZK6/download.png" alt="logo">
+    <span>SaiGonBac SMP</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#gioi-thieu">Giới thiệu</a></li>
+    <li><a href="#features">Tính năng</a></li>
+    <li><a href="#rules">Luật lệ</a></li>
+    <li><a href="#whitelist">Whitelist</a></li>
+    <li><a href="javascript:void(0)" onclick="toggleSupport()">Hỗ trợ</a></li>
+  </ul>
+    <button class="mobile-menu-btn" id="menuBtn">
+    ☰
+  </button>
+    <button class="nav-cta" id="btnJump">ĐĂNG KÝ</button>
+    <div class="mobile-menu" id="mobileMenu">
+
+  <a href="#gioi-thieu">Giới thiệu</a>
+  <a href="#features">Tính năng</a>
+  <a href="#rules">Luật lệ</a>
+  <a href="#whitelist">Whitelist</a>
+        <li><a href="javascript:void(0)" onclick="toggleSupport()">Hỗ trợ</a></li>
+</div>
+</nav>
+
+
+<!-- HERO -->
+
+<section id="hero">
+  <div class="hero-logo">
+    <img src="https://i.postimg.cc/w1GtjZK6/download.png" class="card-img-top object-fit-cover">
+  </div>
+  <!-- stars -->
+  <div class="city-bg"></div>
+
+    <div class="hero-inner">
+      <div class="hero-pill">🏙️ SMP &nbsp;·&nbsp; Season 1 &nbsp;·&nbsp; 1.21.4</div>
+
+      <h1 class="hero-title">
+        SaiGonBac<span class="hl">SMP</span>
+      </h1>
+
+      <p class="hero-sub">
+        Máy chủ <strong style="color:#fff">Minecraft SMP</strong>— nơi bạn bắt đầu hành trình sinh tồn trong một thế giới rộng lớn,
+khám phá thiên nhiên, xây dựng căn cứ và phát triển cùng cộng đồng người chơi.
+Mỗi công trình, mỗi chuyến phiêu lưu đều tạo nên câu chuyện của riêng bạn.
+      </p>
+    <div class="hero-btns">
+      <a href="#whitelist" class="btn-g">🎫 ĐĂNG KÝ WHITELIST</a>
+      <a href="#gioi-thieu" class="btn-o">📖 TÌM HIỂU THÊM</a>
+    </div>
+    <div class="ip-bar">
+      <span class="ip-lbl">IP Server</span>
+      <span class="ip-val" id="ipval">play.imperium.net</span>
+      <button class="copy-ip" onclick="copyIP()">📋 COPY</button>
+    </div>
+  </div>
+</section>
+
+<!-- GIỚI THIỆU -->
+
+<section id="gioi-thieu">
+  <div class="gt-wrap">
+    <!-- pixel world art -->
+   <div class="reveal">
+      <div class="world-art">
+        <!-- r1 sky -->
+        <div class="p sky3"></div><div class="p sky3"></div><div class="p sky2"></div><div class="p sky2"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky2"></div><div class="p sky2"></div><div class="p sky3"></div><div class="p sky3"></div><div class="p sky2"></div>
+        <!-- r2 cloud -->
+        <div class="p sky2"></div><div class="p cld"></div><div class="p cld"></div><div class="p cld2"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div>
+        <!-- r3 tree top -->
+        <div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p lf2"></div><div class="p lf1"></div><div class="p lf2"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div>
+        <!-- r4 tree -->
+        <div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p lf3"></div><div class="p lf1"></div><div class="p lf2"></div><div class="p lf1"></div><div class="p lf3"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div>
+        <!-- r5 trunk -->
+        <div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p wd"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div><div class="p sky1"></div>
+        <!-- r6 grass -->
+        <div class="p gt1"></div><div class="p gt2"></div><div class="p gt1"></div><div class="p gt2"></div><div class="p gt1"></div><div class="p gt2"></div><div class="p wd"></div><div class="p gt2"></div><div class="p gt1"></div><div class="p gt2"></div><div class="p gt1"></div><div class="p gt2"></div>
+        <!-- r7 dirt/water -->
+        <div class="p dirt"></div><div class="p dirt2"></div><div class="p dirt"></div><div class="p w"></div><div class="p w"></div><div class="p dirt"></div><div class="p wd"></div><div class="p dirt"></div><div class="p dirt2"></div><div class="p dirt"></div><div class="p dirt2"></div><div class="p dirt"></div>
+        <!-- r8 stone -->
+        <div class="p s1"></div><div class="p s2"></div><div class="p s3"></div><div class="p w"></div><div class="p s1"></div><div class="p s2"></div><div class="p s3"></div><div class="p s1"></div><div class="p s2"></div><div class="p dia"></div><div class="p s3"></div><div class="p s1"></div>
+        <!-- r9 deep stone -->
+        <div class="p s2"></div><div class="p s1"></div><div class="p s3"></div><div class="p s2"></div><div class="p lv"></div><div class="p s1"></div><div class="p s2"></div><div class="p s3"></div><div class="p s1"></div><div class="p s2"></div><div class="p gld"></div><div class="p s3"></div>
+        <!-- r10 -->
+        <div class="p s1"></div><div class="p s3"></div><div class="p s1"></div><div class="p lv"></div><div class="p s2"></div><div class="p s3"></div><div class="p s1"></div><div class="p s2"></div><div class="p s3"></div><div class="p s1"></div><div class="p s2"></div><div class="p s3"></div>
+        <!-- r11 -->
+        <div class="p s3"></div><div class="p s2"></div><div class="p s1"></div><div class="p s3"></div><div class="p s2"></div><div class="p s1"></div><div class="p dia"></div><div class="p s3"></div><div class="p s2"></div><div class="p s3"></div><div class="p s1"></div><div class="p s2"></div>
+        <!-- r12 bedrock -->
+        <div class="p bd"></div><div class="p bd"></div><div class="p bd"></div><div class="p bd"></div><div class="p bd"></div><div class="p bd"></div><div class="p bd"></div><div class="p bd"></div><div class="p bd"></div><div class="p bd"></div><div class="p bd"></div><div class="p bd"></div>
+      </div>
+    </div>
+
+```
+<!-- text -->
+<div class="reveal" style="transition-delay:.15s">
+  <div class="s-label">Về chúng tôi</div>
+
+  <h2 class="s-title">
+    Máy Chủ SMP<br>Phong Cách Sinh Tồn
+  </h2>
+
+  <p class="s-sub">
+    SaiGonBacSMP  là máy chủ <strong style="color:#fff">Minecraft Survival Multiplayer</strong>
+    nơi bạn có thể sinh tồn, xây dựng và phát triển cùng cộng đồng người chơi.
+    Khám phá thế giới rộng lớn, tạo căn cứ riêng, giao lưu bạn bè và trải nghiệm gameplay SMP ổn định, công bằng.
+  </p>
+
+  <div class="gt-features">
+    <div class="ftag">
+      <span class="em">🌍</span>
+      Thế giới sinh tồn rộng lớn — khám phá biome, hang động và công trình tự nhiên
+    </div>
+
+    <div class="ftag">
+      <span class="em">🏠</span>
+      Tự do xây dựng — tạo căn cứ, thành phố hoặc mega build theo ý thích
+    </div>
+
+    <div class="ftag">
+      <span class="em">⚔️</span>
+      PvP & Survival — chiến đấu, farm tài nguyên và chinh phục Nether/End
+    </div>
+
+    <div class="ftag">
+      <span class="em">⚡</span>
+      Server 24/7 — TPS ổn định, ping thấp dành cho người chơi Việt Nam
+    </div>
+
+    <div class="ftag">
+      <span class="em">🤝</span>
+      Cộng đồng thân thiện — hỗ trợ người mới và hoạt động Discord thường xuyên
+    </div>
+
+    <div class="ftag">
+      <span class="em">🔒</span>
+      Anti-cheat + bảo vệ công trình giúp môi trường chơi công bằng và an toàn
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="scard">
+      <span class="snum">67</span>
+      <span class="slbl">Slots</span>
+    </div>
+
+    <div class="scard">
+      <span class="snum">99%</span>
+      <span class="slbl">Uptime</span>
+    </div>
+
+    <div class="scard">
+      <span class="snum">1.21</span>
+      <span class="slbl">Version</span>
+    </div>
+
+    <div class="scard">
+      <span class="snum">SMP</span>
+      <span class="slbl">Mode</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FEATURES -->
+
+<section id="features">
+  <div style="max-width:1100px;margin:0 auto" class="center">
+    <div class="s-label reveal">Tính năng nổi bật</div>
+
+    <h2 class="s-title reveal" style="transition-delay:.08s">
+      Trải Nghiệm SMP<br>Sinh Tồn 
+    </h2>
+
+    <div class="feat-grid">
+
+      <div class="fcard reveal" style="transition-delay:.06s">
+        <span class="fcard-icon">🌍</span>
+        <div class="fcard-title">Sinh Tồn Cộng Đồng</div>
+        <div class="fcard-desc">
+          Khám phá thế giới rộng lớn, xây dựng căn cứ và phát triển cùng cộng đồng người chơi thân thiện.
+        </div>
+      </div>
+
+      <div class="fcard reveal" style="transition-delay:.12s">
+        <span class="fcard-icon">🏠</span>
+        <div class="fcard-title">Xây Dựng Tự Do</div>
+        <div class="fcard-desc">
+          Tự do sáng tạo nhà cửa, thành phố, lâu đài hoặc công trình khổng lồ theo phong cách riêng của bạn.
+        </div>
+      </div>
+
+      <div class="fcard reveal" style="transition-delay:.18s">
+        <span class="fcard-icon">⚔️</span>
+        <div class="fcard-title">PvP & Chiến Đấu</div>
+        <div class="fcard-desc">
+          Tham gia chiến đấu sinh tồn, duel cùng người chơi hoặc khám phá Nether và End đầy thử thách.
+        </div>
+      </div>
+
+      <div class="fcard reveal" style="transition-delay:.24s">
+        <span class="fcard-icon">💎</span>
+        <div class="fcard-title">Kinh Tế Máy Chủ</div>
+        <div class="fcard-desc">
+          Mua bán vật phẩm, giao dịch với người chơi và phát triển nền kinh tế SMP riêng của server.
+        </div>
+      </div>
+
+      <div class="fcard reveal" style="transition-delay:.30s">
+        <span class="fcard-icon">🛡️</span>
+        <div class="fcard-title">Bảo Vệ Công Trình</div>
+        <div class="fcard-desc">
+          Hệ thống bảo vệ land và chống grief giúp giữ an toàn cho tài sản và căn cứ của bạn.
+        </div>
+      </div>
+
+      <div class="fcard reveal" style="transition-delay:.36s">
+        <span class="fcard-icon">👥</span>
+        <div class="fcard-title">Sự Kiện & Cộng Đồng</div>
+        <div class="fcard-desc">
+          Tham gia event, hoạt động cộng đồng và những thử thách hấp dẫn được tổ chức thường xuyên.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- RULES -->
+
+  <section id="rules">
+  <div style="max-width:820px;margin:0 auto" class="center">
+    <div class="s-label reveal">Nội quy</div>
+    <h2 class="s-title reveal" style="transition-delay:.07s">
+      Luật SMP
+    </h2>
+
+    <p class="s-sub reveal" style="margin:0 auto;transition-delay:.12s">
+      Đây là server SMP sinh tồn cộng đồng — hãy chơi công bằng, tôn trọng người khác và giữ môi trường thân thiện cho mọi người.
+    </p>
+
+    <div class="rules-list">
+
+      <div class="ritem reveal">
+        <span class="rnum">01</span>
+        <span class="rtxt">
+          <strong>Không hack / cheat</strong> — cấm sử dụng X-Ray, Kill Aura, Fly, Auto Click và mọi phần mềm gian lận.
+        </span>
+      </div>
+
+      <div class="ritem reveal" style="transition-delay:.07s">
+        <span class="rnum">02</span>
+        <span class="rtxt">
+          <strong>Không grief phá công trình</strong> — không phá nhà, phá map hoặc làm hỏng tài sản của người chơi khác.
+        </span>
+      </div>
+
+      <div class="ritem reveal" style="transition-delay:.14s">
+        <span class="rnum">03</span>
+        <span class="rtxt">
+          <strong>Không trộm đồ</strong> — cấm lấy vật phẩm, mở chest hoặc farm của người khác khi chưa được cho phép.
+        </span>
+      </div>
+
+      <div class="ritem reveal" style="transition-delay:.21s">
+        <span class="rnum">04</span>
+        <span class="rtxt">
+          <strong>Tôn trọng người chơi khác</strong> — không toxic, xúc phạm hay gây drama trong cộng đồng.
+        </span>
+      </div>
+
+      <div class="ritem reveal" style="transition-delay:.28s">
+        <span class="rnum">05</span>
+        <span class="rtxt">
+          <strong>PvP đúng khu vực</strong> — chỉ PvP tại nơi cho phép hoặc khi cả hai bên đồng ý.
+        </span>
+      </div>
+
+      <div class="ritem reveal" style="transition-delay:.35s">
+        <span class="rnum">06</span>
+        <span class="rtxt">
+          <strong>Giữ server ổn định</strong> — không tạo máy lag, spam entity hoặc exploit gây ảnh hưởng TPS.
+        </span>
+      </div>
+
+    </div>
+  </div>
+</section>
+      <!-- SEASON / PATCH TIMELINE -->
+
+      <section id="season">
+        <div class="season-wrap">
+          <div class="center">
+            <div class="s-label reveal">Lịch sử</div>
+            <h2 class="s-title reveal" style="transition-delay:.07s">Cột Mốc & Phiên Bản</h2>
+            <p class="s-sub reveal" style="margin:0 auto 2.5rem;transition-delay:.12s">
+              Chọn một <strong style="color:#fff">Season</strong> bên dưới để xem toàn bộ lịch sử các bản cập nhật từng giai đoạn.
+            </p>
+          </div>
+
+      ```
+      <!-- horizontal season selector -->
+      <div class="sn-track reveal" id="sn-track" style="transition-delay:.16s">
+        <div class="sn-item " onclick="pickSeason(this,0)">
+          <div class="sn-circle">TEST</div>
+          <div class="sn-lbl">Thử<br>nghiệm</div>
+        </div>
+        <div class="sn-item soon" onclick="pickSeason(this,1)">
+          <div class="sn-circle">S1</div>
+          <div class="sn-lbl">Season 1<br>2025</div>
+        </div>
+        <div class="sn-item soon" onclick="pickSeason(this,2)">
+          <div class="sn-circle">NOW</div>
+          <div class="sn-lbl">Hiện<br>tại</div>
+        </div>
+        <div class="sn-item soon" onclick="pickSeason(this,3)">
+          <div class="sn-circle">S2</div>
+          <div class="sn-lbl">Season 2<br>Soon</div>
+        </div>
+      </div>
+
+      <!-- vertical patch panel (rendered by JS) -->
+      <div class="patch-panel" id="patch-panel">
+        <div class="patch-header" id="ph">
+          <div class="ph-icon" id="ph-icon"></div>
+          <div class="ph-right">
+            <div class="ph-badge" id="ph-badge"></div>
+            <div class="ph-title" id="ph-title"></div>
+            <div class="ph-sub"  id="ph-sub"></div>
+          </div>
+        </div>
+        <div class="patch-list" id="patch-list"></div>
+      </div>
+
+      <p class="sn-hint reveal" style="transition-delay:.2s">⬆ Nhấn vào một giai đoạn để xem chi tiết từng bản</p>
+      ```
+
+        </div>
+      </section>
+<!-- whilelist -->
+  <section id="whitelist">
+    <div class="wl-wrap">
+      <div class="s-label reveal">Tham gia ngay</div>
+      <h2 class="s-title reveal">Đăng Ký Whitelist</h2>
+
+      <form id="registerForm">
+
+        <!-- FormSubmit removed - now using EmailJS -->
+
+        <p class="s-sub reveal">
+          Điền đầy đủ thông tin bên dưới.
+        </p>
+
+        <div class="wl-card reveal">
+          <div id="wl-form">
+
+            <!-- EMAIL + DOB -->
+            <div class="frow">
+              <div class="fgroup">
+                <label>Email *</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+              <div class="fgroup">
+                <label>Ngày sinh *</label>
+                <input type="date" id="dob" name="dob" required>
+              </div>
+            </div>
+
+            <!-- IGN + DISCORD -->
+            <div class="frow">
+              <div class="fgroup">
+                <label>Tên trong game *</label>
+                <input type="text" id="ign" name="ign" required>
+              </div>
+              <div class="fgroup">
+                <label>Discord *</label>
+                <input type="text" id="discord" name="discord" required>
+              </div>
+            </div>
+
+            <!-- EXP -->
+            <div class="fgroup">
+              <label>Kinh nghiệm *</label>
+              <select id="exp" name="exp" required>
+                <option value="">Chọn...</option>
+                <option value="new1"> Dưới 6 tháng</option>
+                <option value="new2">1 năm</option>
+                <option value="new3">1-2 năm</option>
+                <option value="mid1">3-4 năm</option>
+                <option value="mid2">5 năm</option>
+                <option value="pro">Trên 6 năm</option>
+              </select>
+            </div>
+            <div id="questionBox"></div>
+
+            <!-- REASON -->
+            <div class="fgroup">
+              <label>Lý do *</label>
+              <textarea id="reason" name="reason" required></textarea>
+            </div>
+
+            <!-- AGREE -->
+            <div class="check-row">
+              <input type="checkbox" id="agree" required>
+              <label for="agree">Tôi đồng ý nội quy</label>
+            </div>
+
+            <button type="submit" class="submit-btn">🎫 NỘP ĐƠN</button>
+
+          </div>
+
+          <!-- SUCCESS -->
+          <div id="success-panel" class="success-panel">
+            <div class="big-em">✔</div>
+            <h3>THÀNH CÔNG</h3>
+            <p>Đơn của bạn đã được gửi!</p>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </section>
+
+<!-- FOOTER -->
+
+<footer>
+  <span class="ft-logo">
+    <img src="https://i.postimg.cc/w1GtjZK6/download.png" alt="logo">
+    SaiGonBac SMP
+  </span>
+  <div class="ft-links">
+    <a href="#gioi-thieu">Giới thiệu</a>
+    <a href="#features">Tính năng</a>
+    <a href="#rules">Luật lệ</a>
+    <a href="#whitelist">Whitelist</a>
+    <a href="#">Discord</a>
+    <a href="#">Dynmap</a>
+  </div>
+  <p class="ft-copy">© 2025 SaiGonBac SMP &nbsp;·&nbsp;  &nbsp;·&nbsp;Design with Dragonintelligent</p>
+</footer>
+
+ <script>
+        document.getElementById("btnJump")
+        .addEventListener("click", ()=>{
+          document.querySelector("#whitelist")
+            .scrollIntoView({behavior:'smooth'});
+        });
+      </script>
+      <script>
+        window.toggleSupport = function(){
+          document.getElementById("supportPanel")
+            .classList.toggle("open");
+        }
+      </script>
+ <script>
+   // ══════════════════════════════════════════
+   // SEASON DATA
+   // ══════════════════════════════════════════
+   const SEASONS = [
+     {
+       type:'soon', icon:'🧪', badge:'🔜 Chưa bắt đầu', badgeClass:'pb-',
+       title:'Thử Nghiệm (Pre-Season)',
+       sub:'12/2024 — Nội bộ · Không mở công khai',
+       patches:[
+         {
+           ver:'v0.1 ALPHA', dot:'prd-soon', vercol:'s',
+           title:'Khởi động máy chủ lần đầu',
+           desc:'Server được dựng lên với cấu hình tối thiểu để kiểm tra khả năng tải. Nhóm 5 admin tự tay test sinh vật, TPS và world generation.',
+           chips:[{t:'5 admins',c:''},{t:'TPS: 18.2',c:''},{t:'1.21.4',c:''},{t:'12/11/2024',c:''}]
+         },
+         {
+           ver:'v0.2 ALPHA', dot:'prd-soon', vercol:'s',
+           title:'Anti-cheat & Claim đất',
+           desc:'Thêm NoCheatPlus và GriefPrevention. Test thử với 10 tester nội bộ. Phát hiện và vá 3 lỗ hổng dupe item nghiêm trọng.',
+           chips:[{t:'10 testers',c:''},{t:'NCP + GP',c:'cg'},{t:'3 dupe fix',c:''},{t:'20/11/2024',c:''}]
+         },
+         {
+           ver:'v0.5 BETA', dot:'prd-soon', vercol:'s',
+           title:'Beta mở rộng — 32 slots',
+           desc:'Mở cửa cho 32 người chơi beta. Dynmap và Discord được kích hoạt. Nội quy v1 ra đời. World border đặt 5,000×5,000.',
+           chips:[{t:'32 slots',c:''},{t:'Dynmap',c:'cg'},{t:'Discord',c:'cg'},{t:'Border 5k',c:''},{t:'30/11/2024',c:''}]
+         },
+       ]
+     },
+     {
+       type:'soon', icon:'🌍', badge:'🔜 Chưa bắt đầu', badgeClass:'pb-s',
+       title:'Season 1 — Chính thức',
+       sub:'01/01/2025 – 03/2025 · 128 Slots · Vanilla 1.21.4',
+       patches:[
+         {
+           ver:'v1.0 LAUNCH', dot:'prd-soon', vercol:'s',
+           title:'🚀 Grand Opening — Khai mở chính thức',
+           desc:'CraftVN SMP mở cửa chính thức với 128 slot. Spawn Town khánh thành, chợ trung tâm hoạt động. Hơn 200 đơn whitelist trong ngày đầu.',
+           chips:[{t:'128 slots',c:'cg'},{t:'Spawn Town',c:''},{t:'200+ đơn',c:''},{t:'01/01/2025',c:'cg'}]
+         },
+         {
+           ver:'v1.1 UPDATE', dot:'prd-soon', vercol:'s',
+           title:'⚔️ PvP Arena & Anti-cheat v2',
+           desc:'Khu PvP Arena 100×100 block khánh thành tại spawn. Nâng cấp anti-cheat lên Grim AC. Tổ chức giải đấu PvP đầu tiên với 16 người tham dự.',
+           chips:[{t:'PvP Arena',c:'cg'},{t:'Grim AC',c:''},{t:'Tournament #1',c:''},{t:'02/2025',c:''}]
+         },
+         {
+           ver:'v1.2 FINAL', dot:'prd-soon', vercol:'s',
+           title:'🐉 Ender Dragon & Season Close',
+           desc:'Nhóm 8 người chơi đánh bại Ender Dragon lần đầu. Server ổn định TPS 19.8. Season 1 đóng cửa với 89 người chơi active và 4 công trình nổi bật được lưu.',
+           chips:[{t:'Dragon down',c:'cg'},{t:'TPS 19.8',c:''},{t:'89 actives',c:''},{t:'03/2025',c:''}]
+         },
+       ]
+     },
+     {
+       type:'soon', icon:'⚡', badge:'🔜 Chưa bắt đầu', badgeClass:'pb-s',
+       title:'Season 1.5 — Extended (Hiện tại)',
+       sub:'04/2025 – nay · Đang mở whitelist · Nhiều tính năng mới',
+       patches:[
+         {
+           ver:'v1.3 SHOP', dot:'prd-soon', vercol:'s',
+           title:'🛒 Global Shop System ra mắt',
+           desc:'Hệ thống chợ toàn cầu cho phép người chơi mua bán item qua GUI. Hỗ trợ 200+ loại item, giá tự thiết lập, lịch sử giao dịch.',
+           chips:[{t:'Global Shop',c:'cg'},{t:'GUI Market',c:''},{t:'200+ items',c:''},{t:'04/2025',c:''}]
+         },
+         {
+           ver:'v1.4 BUILD', dot:'prd-soon', vercol:'s',
+           title:'🏗️ Mega Build Contest — Đang mở',
+           desc:'Cuộc thi xây dựng lớn nhất server với chủ đề "Vương Quốc Trên Mây". Deadline 30/04/2025. Giải thưởng: 5 tháng VIP + danh hiệu đặc biệt.',
+           chips:[{t:'Build Contest',c:'cy'},{t:'30/04 deadline',c:'cy'},{t:'5 tháng VIP',c:''},{t:'Đang mở',c:'cy'}]
+         },
+         {
+           ver:'v1.5 EXPAND', dot:'prd-soon', vercol:'s',
+           title:'🌊 World Expansion (sắp tới)',
+           desc:'Mở rộng world border từ 15,000 lên 30,000 khối mỗi phía. Reset End dimension và thêm Pale Garden biome. Dự kiến cuối tháng 05/2025.',
+           chips:[{t:'Border 30k',c:''},{t:'End Reset',c:''},{t:'05/2025',c:''}]
+         },
+       ]
+     },
+     {
+       type:'soon', icon:'🏆', badge:'🔜 Chưa bắt đầu', badgeClass:'pb-s',
+       title:'Season 2 — Khởi đầu mới',
+       sub:'Dự kiến 09/2025 · Seed mới · Cơ chế gameplay mới',
+       patches:[
+         {
+           ver:'PRE-S2 PLAN', dot:'prd-soon', vercol:'s',
+           title:'📋 Grand Tournament tổng kết S1',
+           desc:'Giải đấu đa thể loại: PvP, Build, Speedrun, Redstone. Bầu chọn MVP Season 1. Toàn bộ map được export và lưu trữ vĩnh viễn.',
+           chips:[{t:'Grand Final',c:''},{t:'MVP Vote',c:''},{t:'Map export',c:''},{t:'08/2025',c:''}]
+         },
+         {
+           ver:'S2 LAUNCH', dot:'prd-soon', vercol:'s',
+           title:'🚀 Season 2 chính thức khai mở',
+           desc:'Thế giới mới với seed bí mật được vote bởi cộng đồng. Thêm cơ chế economy mới, hệ thống guild và sự kiện định kỳ hàng tháng.',
+           chips:[{t:'New Seed',c:''},{t:'Guild System',c:''},{t:'Economy v2',c:''},{t:'09/2025',c:''}]
+         },
+         {
+           ver:'S2 ROADMAP', dot:'prd-soon', vercol:'s',
+           title:'🗺️ Roadmap Season 2 (đang lên kế hoạch)',
+           desc:'Dự kiến thêm: Custom enchants, Dungeons, Player-run shops, Seasonal events mỗi quý, và hệ thống achievement riêng của server.',
+           chips:[{t:'Custom Enchants',c:''},{t:'Dungeons',c:''},{t:'Achievements',c:''},{t:'TBD',c:''}]
+         },
+       ]
+     }
+   ];
+
+   let curSeason = -1;
+
+   function pickSeason(el, idx) {
+     const panel = document.getElementById('patch-panel');
+     const items = document.querySelectorAll('.sn-item');
+
+     // toggle off
+     if(curSeason === idx){
+       panel.classList.remove('open');
+       el.classList.remove('sel');
+       curSeason = -1;
+       return;
+     }
+
+     // deselect all
+     items.forEach(n => n.classList.remove('sel'));
+     el.classList.add('sel');
+     curSeason = idx;
+
+     // calc arrow position
+     const track = document.getElementById('sn-track');
+     const circle = el.querySelector('.sn-circle');
+     const tr = track.getBoundingClientRect();
+     const cr = circle.getBoundingClientRect();
+     const arrPx = cr.left - tr.left + cr.width / 2;
+
+     const d = SEASONS[idx];
+
+     // header
+     const ph = document.getElementById('ph');
+     ph.className = 'patch-header' + (d.type==='active'?' gold-hdr':d.type==='soon'?' soon-hdr':'');
+     ph.style.setProperty('--arr', arrPx + 'px');
+
+     document.getElementById('ph-icon').textContent = d.icon;
+     const badge = document.getElementById('ph-badge');
+     badge.textContent = d.badge; badge.className = 'ph-badge ' + d.badgeClass;
+     document.getElementById('ph-title').textContent = d.title;
+     document.getElementById('ph-sub').textContent   = d.sub;
+
+     // patch list
+     const list = document.getElementById('patch-list');
+     list.className = 'patch-list' + (d.type==='active'?' gold-border':d.type==='soon'?' soon-border':'');
+
+     list.innerHTML = d.patches.map((p, i) => `
+       <div class="patch-row" style="animation-delay:${i*0.07}s">
+         <div class="pr-left">
+           <div class="pr-dot ${p.dot}"></div>
+           <div class="pr-line"></div>
+         </div>
+         <div class="pr-right">
+           <div class="pr-ver ${p.vercol}">${p.ver}</div>
+           <div class="pr-title">${p.title}</div>
+           <div class="pr-desc">${p.desc}</div>
+           <div class="pr-chips">
+             ${p.chips.map(c=>`<span class="pr-chip ${c.c}">${c.t}</span>`).join('')}
+           </div>
+         </div>
+       </div>
+     `).join('');
+
+     panel.classList.add('open');
+     setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'nearest'}), 100);
+   }
+
+ const menuBtn = document.getElementById("menuBtn");
+const mobileMenu = document.getElementById("mobileMenu");
+
+menuBtn.addEventListener("click", ()=>{
+  mobileMenu.classList.toggle("show");
+});
+ </script>
+   
+    </div>
+  </div>
+</body>
+</html>
