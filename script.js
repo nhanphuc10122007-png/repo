@@ -52,23 +52,31 @@ window.toggleSupport = function(){
 /* ── RANDOM CÂU HỎI SMP ── */
 
 const questions = [
-  "Bạn đã từng chơi SMP trước đây chưa?",
-  "Bạn thích xây dựng hay khám phá nhiều hơn?",
-  "Bạn thường chơi Minecraft theo phong cách nào?",
-  "Bạn online trung bình bao nhiêu giờ mỗi ngày?",
-  "Bạn thích chơi solo hay cùng team?",
+  "IC và OOC là gì",
+  "Nếu phát hiện một lỗi (bug/duplication), bạn sẽ làm gì?",
+  "Nếu thấy người khác hack hoặc cheat, bạn sẽ xử lý như thế nào?",
+  "Tình huống:
+
+Bạn đi khám phá và thấy một căn nhà không khóa cửa, bên trong có rất nhiều kim cương.
+
+Bạn sẽ làm gì?",
+  "FailRP là gì?",
   "Bạn có thích tham gia event cộng đồng không?",
   "Bạn thường làm gì đầu tiên khi vào server SMP?",
-  "Bạn có từng xây mega base hoặc công trình lớn chưa?",
-  "Bạn thích PvP hay Survival chill hơn?",
-  "Bạn có sẵn sàng tuân thủ luật server không?",
-  "Bạn thích biome nào nhất trong Minecraft?",
-  "Bạn có thường chơi cùng bạn bè không?",
-  "Bạn có sử dụng voice chat / Discord không?",
-  "Bạn thích farm tài nguyên hay buôn bán hơn?",
-  "Bạn có từng defeat Ender Dragon chưa?",
-  "Bạn muốn xây dựng điều gì trong server?",
-  "Bạn có đọc và hiểu nội quy server chưa?"
+  "Bạn có được phép phá công trình của người khác khi chưa xin phép không? Vì sao?",
+  "Theo bạn, mục tiêu của một server SMP là gì?",
+  "Metagaming là gì?",
+  "Nếu bạn biết thông tin qua Discord nhưng nhân vật của bạn không biết, bạn có được sử dụng trong RP không?",
+  "Tình huống 
+
+Một người chơi mới vào server và xin bạn đồ.
+
+Bạn sẽ phản ứng như thế nào?",
+  "Tình huống 
+
+Bạn bị cướp trong RP.
+
+Bạn sẽ xử lý như thế nào để vẫn đúng tinh thần RP?",
 ];
 
 const box = document.getElementById("questionBox");
