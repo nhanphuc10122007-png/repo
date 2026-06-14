@@ -133,8 +133,8 @@ const quizPool = [
 
   /* Random 5 câu trắc nghiệm */
   const selectedQuiz = [...quizPool]
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 5);
+    .sort(() => Math.random() - 0.2)
+    .slice(0, 2);
 
   /* Hiển thị tự luận */
   if (box) {
