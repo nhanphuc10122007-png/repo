@@ -1515,7 +1515,7 @@ Mỗi công trình, mỗi chuyến phiêu lưu đều tạo nên câu chuyện c
       ```
       <!-- horizontal season selector -->
       <div class="sn-track reveal" id="sn-track" style="transition-delay:.16s">
-        <div class="sn-item " onclick="pickSeason(this,0)">
+        <div class="sn-item now" onclick="pickSeason(this,0)">
           <div class="sn-circle">TEST</div>
           <div class="sn-lbl">Thử<br>nghiệm</div>
         </div>
@@ -1675,7 +1675,7 @@ Mỗi công trình, mỗi chuyến phiêu lưu đều tạo nên câu chuyện c
    // ══════════════════════════════════════════
    const SEASONS = [
      {
-       type:'active', icon:'🧪', badge:'Đang diễn ra', badgeClass:'pb-y',
+       type:'now', icon:'🧪', badge:'Đang diễn ra', badgeClass:'pb-y',
        title:'Thử Nghiệm (Pre-Season)',
        sub:'14/6/2026 — Nội bộ · Không mở công khai',
        patches:[
