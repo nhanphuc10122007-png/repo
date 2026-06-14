@@ -66,29 +66,107 @@ const questions = [
   "Tình huống\n\nMột người chơi mới vào server và xin bạn đồ.\n\nBạn sẽ phản ứng như thế nào?",
   "Tình huống\n\nBạn bị cướp trong RP.\n\nBạn sẽ xử lý như thế nào để vẫn đúng tinh thần RP?"
 ];
-
-const box = document.getElementById("questionBox");
-
-/* Lưu lại 3 câu random */
-const selectedQuestions = [...questions]
-  .sort(() => 0.5 - Math.random())
-  .slice(0, 3);
-
-if(box){
-
-  selectedQuestions.forEach((q, i) => {
-
-    box.innerHTML += `
-      <div class="fgroup">
-        <label>${q}</label>
-        <input type="text" name="Q${i+1}" required>
-      </div>
-    `;
-
-  });
-
+const quizPool = [
+{
+  q: "Nếu bạn chết trong game, điều nào đúng?",
+  options: [
+    "A. Xin hoàn lại đồ",
+    "B. Chửi Admin",
+    "C. Chấp nhận hậu quả và tiếp tục chơi theo luật server",
+    "D. Hack lấy lại đồ"
+  ]
+},
+{
+  q: "Điều quan trọng nhất khi tham gia server SMP + RP là gì?",
+  options: [
+    "A. Có nhiều kim cương",
+    "B. Cày cuốc nhanh nhất",
+    "C. PvP thật nhiều",
+    "D. Tôn trọng luật và người chơi khác"
+  ]
+},
+{
+  q: "Nếu phát hiện người chơi dùng hack?",
+  options: [
+    "A. Hack theo",
+    "B. Báo Staff",
+    "C. Im lặng",
+    "D. Phát tán hack cho người khác"
+  ]
+},
+{
+  q: "IC là gì?",
+  options: [
+    "A. Thông tin ngoài nhân vật",
+    "B. Thông tin trong vai nhân vật",
+    "C. Tên Admin",
+    "D. Kênh Discord"
+  ]
+},
+{
+  q: "OOC là gì?",
+  options: [
+    "A. Thông tin ngoài nhân vật",
+    "B. Nhân vật trong game",
+    "C. Một loại RP",
+    "D. Luật PvP"
+  ]
+},
+{
+  q: "Metagaming là gì?",
+  options: [
+    "A. Dùng thông tin OOC vào IC",
+    "B. Hack game",
+    "C. Trade đồ",
+    "D. Xây nhà"
+  ]
 }
+];
 
+  const box = document.getElementById("questionBox");
+  const quizBox = document.getElementById("quizBox");
+
+  /* Random 3 câu tự luận */
+  const selectedQuestions = [...questions]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 3);
+
+  /* Random 5 câu trắc nghiệm */
+  const selectedQuiz = [...quizPool]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 5);
+
+  /* Hiển thị tự luận */
+  if (box) {
+    selectedQuestions.forEach((q, i) => {
+      box.innerHTML += `
+        <div class="fgroup">
+          <label>${q}</label>
+          <input type="text" name="Q${i + 1}" required>
+        </div>
+      `;
+    });
+  }
+
+  /* Hiển thị trắc nghiệm */
+  if (quizBox) {
+    selectedQuiz.forEach((quiz, i) => {
+      quizBox.innerHTML += `
+        <div class="fgroup">
+          <label>${quiz.q}</label>
+
+          <select name="quiz${i}" required>
+            <option value="">-- Chọn đáp án --</option>
+
+            ${quiz.options
+              .map(op => `<option value="${op}">${op}</option>`)
+              .join("")}
+
+          </select>
+        </div>
+      `;
+    });
+  }
 /* ── EMAILJS CONFIG ── */
 /*
 ⚠ CHỖ BẮT BUỘC BOSS PHẢI THAY:
@@ -194,7 +272,7 @@ if(form){
                 discord: discordVal,
                 exp: expVal,
                 reason: reasonVal,
-                  
+
                 q1:q1,
                 q2:q2,
                 q3:q3,
@@ -203,7 +281,19 @@ if(form){
 
                 question2: selectedQuestions[1],
 
-                question3: selectedQuestions[2]
+                question3: selectedQuestions[2],
+
+                quiz_question1: selectedQuiz[0]?.q || "",
+                quiz_question2: selectedQuiz[1]?.q || "",
+                quiz_question3: selectedQuiz[2]?.q || "",
+                quiz_question4: selectedQuiz[3]?.q || "",
+                quiz_question5: selectedQuiz[4]?.q || "",
+
+                quiz_answer1: form.querySelector('[name="quiz0"]')?.value || "",
+                quiz_answer2: form.querySelector('[name="quiz1"]')?.value || "",
+                quiz_answer3: form.querySelector('[name="quiz2"]')?.value || "",
+                quiz_answer4: form.querySelector('[name="quiz3"]')?.value || "",
+                quiz_answer5: form.querySelector('[name="quiz4"]')?.value || "",
               }
             );
 
