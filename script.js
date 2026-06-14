@@ -285,15 +285,11 @@ if(form){
 
                 quiz_question1: selectedQuiz[0]?.q || "",
                 quiz_question2: selectedQuiz[1]?.q || "",
-                quiz_question3: selectedQuiz[2]?.q || "",
-                quiz_question4: selectedQuiz[3]?.q || "",
-                quiz_question5: selectedQuiz[4]?.q || "",
+                
 
                 quiz_answer1: form.querySelector('[name="quiz0"]')?.value || "",
                 quiz_answer2: form.querySelector('[name="quiz1"]')?.value || "",
-                quiz_answer3: form.querySelector('[name="quiz2"]')?.value || "",
-                quiz_answer4: form.querySelector('[name="quiz3"]')?.value || "",
-                quiz_answer5: form.querySelector('[name="quiz4"]')?.value || "",
+            
               }
             );
 
