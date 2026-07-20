@@ -243,7 +243,7 @@ if(form){
 
     try{
       await sendEmailVerification(user);
-      alert("📩 Đã gửi email xác minh! (check cả spam / hòm thư rác)");
+      alert("📩 Đã gửi email xác minh! (check cả spam / hòm thư rác)Lưu ý phải làm đủ thao tác và được thông báo gửi đơn thành công nhé");
     }catch(err){
       alert("Lỗi gửi mail: " + err.message);
       btn.disabled = false;
