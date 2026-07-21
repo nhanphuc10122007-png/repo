@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hướng Dẫn</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+    color:#333;
+}
+
+/* Thanh trên cùng */
+.topbar{
+    position:sticky;
+    top:0;
+    width:100%;
+    background:#ffffff;
+    padding:15px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+    z-index:1000;
+}
+
+.back-btn{
+    border:none;
+    background:#007bff;
+    color:white;
+    padding:10px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.back-btn:hover{
+    opacity:0.9;
+}
+
+/* Nội dung */
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+img{
+    width:100%;
+    border-radius:10px;
+}
+
+video{
+    width:100%;
+    border-radius:10px;
+}
+
+.step{
+    margin-top:15px;
+    padding:15px;
+    background:#f8f8f8;
+    border-left:4px solid #007bff;
+    border-radius:8px;
+}
+
+.step h3{
+    margin-bottom:8px;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <button class="back-btn" onclick="window.location.href='https://saigonbacsmp.vercel.app/';">
+    Quay lại
+</button>
+</div>
+
+<div class="container">
+
+    <!-- Ảnh -->
+    <div class="card">
+        <h2>Hình ảnh minh họa</h2>
+        <br>
+        <img src="https://via.placeholder.com/900x500" alt="Hình minh họa">
+    </div>
+
+    <!-- Video -->
+    <div class="card">
+        <h2>Video hướng dẫn</h2>
+        <br>
+        <video controls>
+            <source src="video.mp4" type="video/mp4">
+            Trình duyệt không hỗ trợ video.
+        </video>
+    </div>
+
+    <!-- Các bước -->
+    <div class="card">
+        <h2>Các bước thực hiện</h2>
+
+        <div class="step">
+            <h3>Bước 1</h3>
+            <p>Mô tả bước đầu tiên tại đây.</p>
+        </div>
+
+        <div class="step">
+            <h3>Bước 2</h3>
+            <p>Mô tả bước thứ hai tại đây.</p>
+        </div>
+
+        <div class="step">
+            <h3>Bước 3</h3>
+            <p>Mô tả bước thứ ba tại đây.</p>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
